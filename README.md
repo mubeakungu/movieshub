@@ -18,6 +18,8 @@ Get a free TMDB key at https://www.themoviedb.org/settings/api. Without a key th
 
 ## Deploy
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmubeakungu%2Fmovieshub&env=TMDB_READ_TOKEN&envDescription=TMDB%20API%20Read%20Access%20Token&envLink=https%3A%2F%2Fwww.themoviedb.org%2Fsettings%2Fapi&project-name=movieshub)
+
 Push to GitHub and import into Vercel (or any Node host). Set `TMDB_READ_TOKEN` and optionally `TMDB_REGION`
 (two-letter country code, default `US`) as environment variables. Pages are cached and refreshed hourly.
 
