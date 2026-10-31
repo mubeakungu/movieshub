@@ -15,7 +15,17 @@ npx expo start               # scan the QR code with the Expo Go app
 Without a token the app runs on sample data. `EXPO_PUBLIC_*` values are bundled into the app, so only use a
 read-only TMDB token there.
 
-## Build an installable app
+## Download the Android app
+
+Every change to `mobile/` on `main` builds an APK with GitHub Actions and attaches it to the
+[android-latest release](https://github.com/mubeakungu/movieshub/releases/tag/android-latest). Open that page on your
+Android phone, download `reel.apk`, and open it to install (allow installs from your browser when asked).
+
+To load real movies in that build, add a repository secret named `TMDB_READ_TOKEN` (GitHub → Settings → Secrets and
+variables → Actions) and re-run the "Android APK" workflow. This build is signed with a debug key, which is fine for
+sideloading but not for the Play Store; use EAS (below) for store releases.
+
+## Build with EAS (store releases)
 
 Uses EAS Build (free tier, runs in the cloud, no Android Studio or Xcode needed):
 
