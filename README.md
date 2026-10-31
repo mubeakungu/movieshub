@@ -6,6 +6,10 @@ legal streaming, rental and purchase services for each title (TMDB / JustWatch d
 
 It does not host or stream full movies itself. Playback is trailers plus deep links to licensed services.
 
+## Mobile app
+
+An Android and iPhone app lives in [`mobile/`](mobile/README.md) (Expo / React Native).
+
 ## Run it
 
 ```bash
