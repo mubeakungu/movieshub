@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="footer">
           Movie data and images from{" "}
           <a href="https://www.themoviedb.org" target="_blank" rel="noreferrer">TMDB</a>. This product uses the TMDB API
-          but is not endorsed or certified by TMDB. Streaming availability by JustWatch.
+          but is not endorsed or certified by TMDB. Streaming availability by JustWatch. · <a href="/privacy">Privacy</a>
         </footer>
       </body>
     </html>

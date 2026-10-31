@@ -1,4 +1,6 @@
 name: Android APK
+# Builds an installable APK on every change, plus a signed Play Store bundle (AAB)
+# when the upload-key secrets are set.
 
 on:
   push:
@@ -26,6 +28,9 @@ jobs:
       # Optional repo secret. Without it the app ships with sample data.
       EXPO_PUBLIC_TMDB_READ_TOKEN: ${{ secrets.TMDB_READ_TOKEN }}
       EXPO_PUBLIC_TMDB_REGION: ${{ vars.TMDB_REGION || 'US' }}
+      # Each run gets a higher Android versionCode, which Google Play requires for every upload.
+      VERSION_CODE: ${{ github.run_number }}
+      HAS_UPLOAD_KEY: ${{ secrets.ANDROID_UPLOAD_KEYSTORE_BASE64 != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -59,6 +64,32 @@ jobs:
       - name: Rename APK
         run: cp android/app/build/outputs/apk/release/app-release.apk reel.apk
 
+      - name: Build Play Store bundle (AAB)
+        if: env.HAS_UPLOAD_KEY == 'true'
+        working-directory: mobile/android
+        run: ./gradlew bundleRelease --no-daemon
+
+      - name: Sign AAB with the upload key
+        if: env.HAS_UPLOAD_KEY == 'true'
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_UPLOAD_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_UPLOAD_KEYSTORE_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          cp android/app/build/outputs/bundle/release/app-release.aab reel.aab
+          # Replace the default debug signature with the upload key.
+          zip -q -d reel.aab 'META-INF/*.SF' 'META-INF/*.RSA' 'META-INF/*.MF' || true
+          jarsigner -keystore "$RUNNER_TEMP/upload.jks" -storepass "$KEYSTORE_PASSWORD" \
+            -sigalg SHA256withRSA -digestalg SHA-256 reel.aab upload
+          jarsigner -verify reel.aab | tail -1
+          rm "$RUNNER_TEMP/upload.jks"
+
+      - uses: actions/upload-artifact@v4
+        if: env.HAS_UPLOAD_KEY == 'true'
+        with:
+          name: reel-play-store-aab
+          path: mobile/reel.aab
+
       - uses: actions/upload-artifact@v4
         with:
           name: reel-android-apk
@@ -74,3 +105,4 @@ jobs:
               --notes "Download reel.apk on your Android phone and open it to install. You may need to allow installs from your browser." \
               --target "${GITHUB_SHA}"
           gh release upload android-latest reel.apk --clobber
+          if [ -f reel.aab ]; then gh release upload android-latest reel.aab --clobber; fi
