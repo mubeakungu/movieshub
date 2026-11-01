@@ -37,3 +37,10 @@ npx eas-cli@latest build -p ios --profile production    # needs an Apple Develop
 
 Add `EXPO_PUBLIC_TMDB_READ_TOKEN` as an EAS environment variable (expo.dev → project → Environment variables) so
 builds load real data.
+
+## Android TV
+
+The same APK runs on Android TV / Google TV: it appears on the TV home screen (with `assets/tv-banner.png`), lays
+out in landscape with larger cards, and every card and button can be reached with the remote's arrow keys.
+To install, use the **Downloader** app on the TV and enter
+`github.com/mubeakungu/movieshub/releases/download/android-latest/reel.apk`.

@@ -1,4 +1,5 @@
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import Focusable from "./Focusable";
 import { hasApiKey } from "@/lib/tmdb";
 import { colors } from "@/lib/theme";
 
@@ -15,9 +16,9 @@ export function ErrorState({ onRetry }: { onRetry: () => void }) {
     <View style={styles.center}>
       <Text style={styles.title}>Couldn’t load movies</Text>
       <Text style={styles.muted}>Check your connection or TMDB token.</Text>
-      <Pressable style={styles.btn} onPress={onRetry}>
+      <Focusable style={styles.btn} onPress={onRetry} hasTVPreferredFocus>
         <Text style={styles.btnText}>Try again</Text>
-      </Pressable>
+      </Focusable>
     </View>
   );
 }

@@ -1,7 +1,9 @@
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams } from "expo-router";
-import { FlatList, Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Linking, ScrollView, StyleSheet, Text, View } from "react-native";
+import Focusable from "@/components/Focusable";
+import { isTV } from "@/lib/tv";
 import Row from "@/components/Row";
 import { ErrorState, Loading } from "@/components/States";
 import { REGION, getMovie, img, pickTrailer, year, type Provider } from "@/lib/tmdb";
@@ -72,15 +74,19 @@ export default function MovieScreen() {
 
         <View style={styles.actions}>
           {trailer ? (
-            <Pressable style={[styles.btn, styles.btnPrimary]} onPress={() => Linking.openURL(`https://www.youtube.com/watch?v=${trailer.key}`)}>
+            <Focusable
+              style={[styles.btn, styles.btnPrimary]}
+              onPress={() => Linking.openURL(`https://www.youtube.com/watch?v=${trailer.key}`)}
+              hasTVPreferredFocus
+            >
               <Text style={styles.btnText}>▶ Play Trailer</Text>
-            </Pressable>
+            </Focusable>
           ) : (
             <Text style={styles.muted}>No trailer yet</Text>
           )}
-          <Pressable style={styles.btn} onPress={() => toggle(movie)}>
+          <Focusable style={styles.btn} onPress={() => toggle(movie)} hasTVPreferredFocus={!trailer}>
             <Text style={styles.btnText}>{saved ? "✓ In My List" : "+ My List"}</Text>
-          </Pressable>
+          </Focusable>
         </View>
 
         <View style={styles.watch}>
@@ -91,9 +97,9 @@ export default function MovieScreen() {
               <Providers label="Free" list={[...(watch.free || []), ...(watch.ads || [])]} />
               <Providers label="Rent" list={watch.rent} />
               <Providers label="Buy" list={watch.buy} />
-              <Pressable onPress={() => Linking.openURL(watch.link)}>
+              <Focusable onPress={() => Linking.openURL(watch.link)} style={{ alignSelf: "flex-start", padding: 4 }}>
                 <Text style={styles.link}>See all options →</Text>
-              </Pressable>
+              </Focusable>
             </>
           ) : (
             <Text style={styles.muted}>Not streaming in {REGION} yet. It may still be in theaters.</Text>
@@ -134,16 +140,16 @@ export default function MovieScreen() {
 
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: colors.bg },
-  backdrop: { height: 240, backgroundColor: colors.panel },
-  top: { flexDirection: "row", gap: 14, paddingHorizontal: 16, marginTop: -90, alignItems: "flex-end" },
-  poster: { width: 110, height: 165, borderRadius: 10, overflow: "hidden", backgroundColor: colors.panel },
+  backdrop: { height: isTV ? 360 : 240, backgroundColor: colors.panel },
+  top: { flexDirection: "row", gap: isTV ? 28 : 14, paddingHorizontal: isTV ? 48 : 16, marginTop: -90, alignItems: "flex-end" },
+  poster: { width: isTV ? 200 : 110, height: isTV ? 300 : 165, borderRadius: 10, overflow: "hidden", backgroundColor: colors.panel },
   posterFallback: { flex: 1, alignItems: "center", justifyContent: "center", padding: 8, backgroundColor: "#2A3142" },
-  title: { color: colors.text, fontSize: 24, fontWeight: "800" },
+  title: { color: colors.text, fontSize: isTV ? 40 : 24, fontWeight: "800" },
   text: { color: colors.text, fontWeight: "700", textAlign: "center" },
   muted: { color: colors.muted, marginTop: 4 },
   genres: { flexDirection: "row", flexWrap: "wrap", gap: 6, marginTop: 8 },
   pill: { color: colors.text, fontSize: 11, backgroundColor: "#FFFFFF1A", paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, overflow: "hidden" },
-  section: { paddingHorizontal: 16, marginTop: 16 },
+  section: { paddingHorizontal: isTV ? 48 : 16, marginTop: 16, maxWidth: isTV ? 1100 : undefined },
   tagline: { color: colors.muted, fontStyle: "italic", marginBottom: 8 },
   overview: { color: "#D6DBE4", lineHeight: 22 },
   actions: { flexDirection: "row", gap: 10, marginTop: 16, alignItems: "center" },

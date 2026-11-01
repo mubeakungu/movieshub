@@ -1,7 +1,9 @@
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import Focusable from "@/components/Focusable";
+import { isTV } from "@/lib/tv";
 import Row from "@/components/Row";
 import { ErrorState, Loading, SampleBanner } from "@/components/States";
 import { LIST_TITLES, getList, img, year, type ListKey } from "@/lib/tmdb";
@@ -30,7 +32,12 @@ export default function Home() {
     >
       <SampleBanner />
       {hero && (
-        <Pressable onPress={() => router.push({ pathname: "/movie/[id]", params: { id: String(hero.id) } })} style={styles.hero}>
+        <Focusable
+          onPress={() => router.push({ pathname: "/movie/[id]", params: { id: String(hero.id) } })}
+          style={styles.hero}
+          focusStyle={{ transform: [], borderWidth: 2 }}
+          hasTVPreferredFocus
+        >
           {backdrop && <Image source={backdrop} style={StyleSheet.absoluteFill} contentFit="cover" />}
           <LinearGradient colors={["transparent", colors.bg]} style={StyleSheet.absoluteFill} />
           <View style={styles.heroBody}>
@@ -38,7 +45,7 @@ export default function Home() {
             <Text style={styles.heroTitle}>{hero.title}</Text>
             <Text style={styles.meta}>{year(hero.release_date)} · ★ {hero.vote_average.toFixed(1)}</Text>
           </View>
-        </Pressable>
+        </Focusable>
       )}
       {KEYS.map((k) => (
         <Row key={k} title={LIST_TITLES[k]} movies={data[k]} />
@@ -52,10 +59,10 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  hero: { height: 280, justifyContent: "flex-end", backgroundColor: colors.panel },
-  heroBody: { padding: 16 },
+  hero: { borderRadius: 0, borderWidth: 0, height: isTV ? 420 : 280, justifyContent: "flex-end", backgroundColor: colors.panel },
+  heroBody: { padding: isTV ? 48 : 16, maxWidth: 900 },
   pill: { alignSelf: "flex-start", color: colors.text, fontSize: 11, backgroundColor: "#FFFFFF22", paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, overflow: "hidden" },
-  heroTitle: { color: colors.text, fontSize: 30, fontWeight: "800", marginTop: 8 },
+  heroTitle: { color: colors.text, fontSize: isTV ? 48 : 30, fontWeight: "800", marginTop: 8 },
   meta: { color: colors.muted, marginTop: 4 },
-  credit: { color: colors.muted, fontSize: 11, paddingHorizontal: 16, marginTop: 28, lineHeight: 16 },
+  credit: { color: colors.muted, fontSize: 11, paddingHorizontal: isTV ? 48 : 16, marginTop: 28, lineHeight: 16 },
 });

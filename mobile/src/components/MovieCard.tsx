@@ -1,14 +1,16 @@
 import { Image } from "expo-image";
 import { Link } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import Focusable from "./Focusable";
+import { isTV } from "@/lib/tv";
 import { img, year, type Movie } from "@/lib/tmdb";
 import { colors } from "@/lib/theme";
 
-export default function MovieCard({ movie, width = 130 }: { movie: Movie; width?: number }) {
+export default function MovieCard({ movie, width = isTV ? 190 : 130 }: { movie: Movie; width?: number }) {
   const poster = img(movie.poster_path, "w342");
   return (
     <Link href={{ pathname: "/movie/[id]", params: { id: String(movie.id) } }} asChild>
-      <Pressable style={{ width }}>
+      <Focusable style={{ width }}>
         <View style={[styles.poster, { width, height: width * 1.5 }]}>
           {poster ? (
             <Image source={poster} style={StyleSheet.absoluteFill} contentFit="cover" transition={150} />
@@ -25,7 +27,7 @@ export default function MovieCard({ movie, width = 130 }: { movie: Movie; width?
         </View>
         <Text style={styles.title} numberOfLines={1}>{movie.title}</Text>
         <Text style={styles.sub}>{year(movie.release_date)}</Text>
-      </Pressable>
+      </Focusable>
     </Link>
   );
 }
