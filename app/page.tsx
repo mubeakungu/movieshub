@@ -2,6 +2,8 @@ import Link from "next/link";
 import Row from "@/components/Row";
 import { getLatest, getList, getMovie, img, pickTrailer, year } from "@/lib/tmdb";
 import TrailerButton from "@/components/TrailerButton";
+import FreeCard from "@/components/FreeCard";
+import { FREE_MOVIES } from "@/lib/free";
 
 export const revalidate = 3600;
 
@@ -40,6 +42,17 @@ export default async function Home() {
         </section>
       )}
       <Row title="Latest Releases" movies={latest.results} href="/browse/latest" />
+      <section className="row">
+        <div className="row-head">
+          <h2>Watch Free: full movies</h2>
+          <Link href="/free" className="see-all">See all →</Link>
+        </div>
+        <div className="row-scroll">
+          {FREE_MOVIES.map((m) => (
+            <FreeCard key={m.id} movie={m} />
+          ))}
+        </div>
+      </section>
       <Row title="Now Playing in Theaters" movies={nowPlaying.results} href="/browse/now_playing" />
       <Row title="Trending This Week" movies={trending.results} href="/browse/trending" />
       <Row title="Coming Soon" movies={upcoming.results} href="/browse/upcoming" />

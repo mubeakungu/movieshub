@@ -5,6 +5,9 @@ import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native
 import Focusable from "@/components/Focusable";
 import { isTV } from "@/lib/tv";
 import Row from "@/components/Row";
+import FreeCard from "@/components/FreeCard";
+import { FREE_MOVIES } from "@/lib/free";
+import { FlatList } from "react-native";
 import { ErrorState, Loading, SampleBanner } from "@/components/States";
 import { LIST_TITLES, getList, img, year, type ListKey } from "@/lib/tmdb";
 import { colors } from "@/lib/theme";
@@ -47,8 +50,23 @@ export default function Home() {
           </View>
         </Focusable>
       )}
-      {KEYS.map((k) => (
-        <Row key={k} title={LIST_TITLES[k]} movies={data[k]} />
+      {KEYS.map((k, i) => (
+        <View key={k}>
+          <Row title={LIST_TITLES[k]} movies={data[k]} />
+          {i === 0 && (
+            <View style={{ marginTop: 22 }}>
+              <Text style={styles.rowTitle}>Watch Free: full movies</Text>
+              <FlatList
+                horizontal
+                data={FREE_MOVIES}
+                keyExtractor={(m) => m.id}
+                renderItem={({ item }) => <FreeCard movie={item} />}
+                contentContainerStyle={{ gap: isTV ? 20 : 12, paddingHorizontal: isTV ? 48 : 16, paddingVertical: isTV ? 16 : 6 }}
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+          )}
+        </View>
       ))}
       <Text style={styles.credit}>
         Movie data and images from TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB.
@@ -64,5 +82,6 @@ const styles = StyleSheet.create({
   pill: { alignSelf: "flex-start", color: colors.text, fontSize: 11, backgroundColor: "#FFFFFF22", paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, overflow: "hidden" },
   heroTitle: { color: colors.text, fontSize: isTV ? 48 : 30, fontWeight: "800", marginTop: 8 },
   meta: { color: colors.muted, marginTop: 4 },
+  rowTitle: { color: colors.text, fontSize: isTV ? 24 : 18, fontWeight: "700", marginBottom: 10, paddingHorizontal: isTV ? 48 : 16 },
   credit: { color: colors.muted, fontSize: 11, paddingHorizontal: isTV ? 48 : 16, marginTop: 28, lineHeight: 16 },
 });

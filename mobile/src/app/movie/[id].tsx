@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { FlatList, Linking, ScrollView, StyleSheet, Text, View } from "react-native";
 import Focusable from "@/components/Focusable";
 import { isTV } from "@/lib/tv";
@@ -76,7 +76,7 @@ export default function MovieScreen() {
           {trailer ? (
             <Focusable
               style={[styles.btn, styles.btnPrimary]}
-              onPress={() => Linking.openURL(`https://www.youtube.com/watch?v=${trailer.key}`)}
+              onPress={() => router.push({ pathname: "/trailer/[key]", params: { key: trailer.key, title: movie.title } })}
               hasTVPreferredFocus
             >
               <Text style={styles.btnText}>▶ Play Trailer</Text>
