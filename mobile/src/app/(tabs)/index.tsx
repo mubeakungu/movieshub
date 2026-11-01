@@ -43,6 +43,10 @@ export default function Home() {
       {KEYS.map((k) => (
         <Row key={k} title={LIST_TITLES[k]} movies={data[k]} />
       ))}
+      <Text style={styles.credit}>
+        Movie data and images from TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB.
+        Streaming availability by JustWatch.
+      </Text>
     </ScrollView>
   );
 }
@@ -53,4 +57,5 @@ const styles = StyleSheet.create({
   pill: { alignSelf: "flex-start", color: colors.text, fontSize: 11, backgroundColor: "#FFFFFF22", paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, overflow: "hidden" },
   heroTitle: { color: colors.text, fontSize: 30, fontWeight: "800", marginTop: 8 },
   meta: { color: colors.muted, marginTop: 4 },
+  credit: { color: colors.muted, fontSize: 11, paddingHorizontal: 16, marginTop: 28, lineHeight: 16 },
 });

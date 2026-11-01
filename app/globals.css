@@ -95,3 +95,8 @@ code { background: #ffffff1a; padding: 1px 6px; border-radius: 4px; }
   .detail-poster { flex-basis: auto; width: 180px; }
   .row-scroll > * { flex-basis: 130px; }
 }
+
+.prose { max-width: 760px; line-height: 1.6; color: #d6dbe4; }
+.prose h2 { color: var(--text); margin-top: 28px; font-size: 20px; }
+.prose a { text-decoration: underline; }
+.prose li { margin-bottom: 8px; }

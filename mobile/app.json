@@ -18,7 +18,8 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.mubeakungu.reel"
+      "package": "com.mubeakungu.reel",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -29,6 +30,13 @@
       "expo-router",
       "expo-image"
     ],
-    "scheme": "reel"
+    "scheme": "reel",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0B0D12"
+    },
+    "backgroundColor": "#0B0D12",
+    "description": "Discover the latest movies, watch trailers, and find where to stream them."
   }
 }
