@@ -80,6 +80,19 @@ export async function getLatest(page = 1): Promise<Paged<Movie>> {
   });
 }
 
+/** Newest movies that are free to stream (with or without ads) in REGION, via TMDB/JustWatch data. */
+export async function getLatestFree(page = 1): Promise<Paged<Movie>> {
+  if (!hasApiKey) return mockList(page);
+  return tmdb<Paged<Movie>>("/discover/movie", {
+    page,
+    watch_region: REGION,
+    with_watch_monetization_types: "free|ads",
+    sort_by: "primary_release_date.desc",
+    "primary_release_date.lte": new Date().toISOString().slice(0, 10),
+    "vote_count.gte": 20,
+  });
+}
+
 export async function searchMovies(query: string, page = 1): Promise<Paged<Movie>> {
   if (!hasApiKey) {
     const all = mockList(1);
