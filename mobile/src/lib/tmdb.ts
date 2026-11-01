@@ -29,9 +29,10 @@ export type MovieDetails = Movie & {
   "watch/providers": { results: Record<string, WatchRegion> };
 };
 
-export type ListKey = "latest" | "now_playing" | "upcoming" | "trending" | "popular";
+export type ListKey = "latest" | "latest_free" | "now_playing" | "upcoming" | "trending" | "popular";
 export const LIST_TITLES: Record<ListKey, string> = {
   latest: "Latest Releases",
+  latest_free: "Latest Free to Stream (with ads)",
   now_playing: "Now Playing in Theaters",
   trending: "Trending This Week",
   upcoming: "Coming Soon",
@@ -62,6 +63,15 @@ export async function getList(key: ListKey, page = 1): Promise<Paged<Movie>> {
         with_release_type: "2|3|4|6",
       });
     }
+    case "latest_free":
+      return tmdb("/discover/movie", {
+        page,
+        watch_region: REGION,
+        with_watch_monetization_types: "free|ads",
+        sort_by: "primary_release_date.desc",
+        "primary_release_date.lte": iso(new Date()),
+        "vote_count.gte": 20,
+      });
     case "trending":
       return tmdb("/trending/movie/week", { page });
     case "now_playing":

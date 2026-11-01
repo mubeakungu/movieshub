@@ -14,6 +14,9 @@ export type FreeMovie = {
 };
 
 export const FREE_MOVIES: FreeMovie[] = [
+  { id: "sprite-fright-2021", file: "Sprite Fright (2021).mp4", title: "Sprite Fright", year: 2021, runtime: 10, license: "CC BY 4.0 · Blender Studio", overview: "A group of rowdy teenagers on a trip to the forest run into some tiny, very unfriendly woodland creatures. Blender Studio's horror-comedy short." },
+  { id: "agent-327-operation-barbershop", file: "Agent 327 Operation Barbershop.ia.mp4", title: "Agent 327: Operation Barbershop", year: 2017, runtime: 4, license: "CC BY-ND 4.0 · Blender Studio", overview: "Secret agent 327 goes undercover at a barbershop that hides a deadly secret. A teaser for the Agent 327 animated feature." },
+  { id: "cosmos-laundromat", file: "Cosmos Laundromat.mp4", title: "Cosmos Laundromat", year: 2015, runtime: 12, license: "CC BY 4.0 · Blender Institute", overview: "On a desolate island, a suicidal sheep named Franck meets a mysterious salesman who offers him the gift of a lifetime." },
   { id: "NightOfTheLivingDead1968-Restored", file: "Notld1968Restoration-desktop.mp4", title: "Night of the Living Dead", year: 1968, runtime: 96, license: "Public domain", overview: "Strangers barricade themselves in a farmhouse as the dead rise and close in. George A. Romero's horror landmark." },
   { id: "charade_202604", file: "Charade.ia.mp4", title: "Charade", year: 1963, runtime: 113, license: "Public domain", overview: "Cary Grant and Audrey Hepburn in a romantic thriller about a widow pursued across Paris for a fortune she never knew existed." },
   { id: "his_girl_friday", file: "his_girl_friday.mp4", title: "His Girl Friday", year: 1940, runtime: 92, license: "Public domain", overview: "A fast-talking newspaper editor schemes to stop his star reporter, and ex-wife, from leaving the paper. Cary Grant and Rosalind Russell." },

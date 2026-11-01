@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Row from "@/components/Row";
-import { getLatest, getList, getMovie, img, pickTrailer, year } from "@/lib/tmdb";
+import { getLatest, getLatestFree, getList, getMovie, img, pickTrailer, year } from "@/lib/tmdb";
 import TrailerButton from "@/components/TrailerButton";
 import FreeCard from "@/components/FreeCard";
 import { FREE_MOVIES } from "@/lib/free";
@@ -8,8 +8,9 @@ import { FREE_MOVIES } from "@/lib/free";
 export const revalidate = 3600;
 
 export default async function Home() {
-  const [latest, nowPlaying, upcoming, trending, popular] = await Promise.all([
+  const [latest, latestFree, nowPlaying, upcoming, trending, popular] = await Promise.all([
     getLatest(),
+    getLatestFree(),
     getList("now_playing"),
     getList("upcoming"),
     getList("trending"),
@@ -53,6 +54,7 @@ export default async function Home() {
           ))}
         </div>
       </section>
+      <Row title="Latest Free to Stream (with ads)" movies={latestFree.results} href="/browse/latest_free" />
       <Row title="Now Playing in Theaters" movies={nowPlaying.results} href="/browse/now_playing" />
       <Row title="Trending This Week" movies={trending.results} href="/browse/trending" />
       <Row title="Coming Soon" movies={upcoming.results} href="/browse/upcoming" />
