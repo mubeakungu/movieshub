@@ -6,6 +6,7 @@ export default function Header() {
       <Link href="/" className="logo">REEL<span>.</span></Link>
       <nav className="nav">
         <Link href="/browse/latest">Latest</Link>
+        <Link href="/free" className="nav-free">Watch Free</Link>
         <Link href="/browse/now_playing">In Theaters</Link>
         <Link href="/browse/upcoming">Coming Soon</Link>
         <Link href="/browse/trending">Trending</Link>

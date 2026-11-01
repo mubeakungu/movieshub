@@ -14,6 +14,8 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerTintColor: colors.text, contentStyle: { backgroundColor: colors.bg } }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="movie/[id]" options={{ title: "", headerTransparent: true }} />
+        <Stack.Screen name="watch/[id]" options={{ title: "" }} />
+        <Stack.Screen name="trailer/[key]" options={{ title: "Trailer", presentation: "fullScreenModal" }} />
       </Stack>
     </ThemeProvider>
   );

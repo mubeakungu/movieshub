@@ -16,6 +16,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen name="index" options={{ title: "Reel", tabBarLabel: "Home", tabBarIcon: icon("⌂") }} />
+      <Tabs.Screen name="free" options={{ title: "Watch Free", tabBarLabel: "Free", tabBarIcon: icon("▶") }} />
       <Tabs.Screen name="search" options={{ title: "Search", tabBarIcon: icon("⌕") }} />
       <Tabs.Screen name="my-list" options={{ title: "My List", tabBarIcon: icon("♥") }} />
     </Tabs>
